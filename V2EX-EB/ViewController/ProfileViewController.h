@@ -11,5 +11,6 @@
 @interface ProfileViewController : BaseViewController
 
 @property (nonatomic, copy) NSString *username;
+@property (nonatomic, assign) BOOL isCurrentLoginMember;
 
 @end

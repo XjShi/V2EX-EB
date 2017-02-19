@@ -47,7 +47,7 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
         [self.tableView reloadData];
     } failed:^(NSInteger errorCode, NSString *msg) {
         [self hideLoading];
-        NSLog(@"%@", msg);
+        DDLogDebug(@"%@", msg);
     }];
 }
 
@@ -87,7 +87,7 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
 
 #pragma mark - TopicDetailViewDelegate
 - (void)clickedUsername:(NSString *)username inTopicDetailView:(TopicDetailView *)view {
-    NSLog(@"%@", username);
+    DDLogDebug(@"%@", username);
     ProfileViewController *vc = [ProfileViewController new];
     vc.username = username;
     [self.navigationController pushViewController:vc animated:YES];
@@ -100,12 +100,12 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
 
 #pragma mark - TTTAttributedLabelDelegate
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithPhoneNumber:(NSString *)phoneNumber {
-    NSLog(@"%@", phoneNumber);
+    DDLogDebug(@"%@", phoneNumber);
     [self alertUserToCallOrSendSMSWithPhoneNumber:phoneNumber];
 }
 
 - (void)attributedLabel:(TTTAttributedLabel *)label didSelectLinkWithURL:(NSURL *)url {
-    NSLog(@"note:\t%@", url);
+    DDLogDebug(@"note:\t%@", url);
     if ([V2URLHelper isHTTPURL:url]) {
         [self alertUserToOpenURLInSafari:url];
     } else if ([V2URLHelper isMailURL:url]) {

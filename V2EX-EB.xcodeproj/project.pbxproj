@@ -51,6 +51,9 @@
 		7D6B33871E574EFD008694A5 /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D6B33861E574EFD008694A5 /* libxml2.2.tbd */; };
 		7D6B33891E575E4C008694A5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D6B33881E575E4C008694A5 /* Security.framework */; };
 		7D6B33901E58A353008694A5 /* EBAccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D6B338F1E58A353008694A5 /* EBAccountManager.m */; };
+		7DF9EDC81E5945D500749513 /* ProfileHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF9EDC71E5945D500749513 /* ProfileHeaderView.m */; };
+		7DF9EDCB1E5958FF00749513 /* EBErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF9EDCA1E5958FF00749513 /* EBErrorView.m */; };
+		7DF9EDCE1E59A8C000749513 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DF9EDCD1E59A8C000749513 /* SafariServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -133,6 +136,11 @@
 		7D6B33881E575E4C008694A5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		7D6B338E1E58A353008694A5 /* EBAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EBAccountManager.h; sourceTree = "<group>"; };
 		7D6B338F1E58A353008694A5 /* EBAccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EBAccountManager.m; sourceTree = "<group>"; };
+		7DF9EDC61E5945D500749513 /* ProfileHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileHeaderView.h; sourceTree = "<group>"; };
+		7DF9EDC71E5945D500749513 /* ProfileHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileHeaderView.m; sourceTree = "<group>"; };
+		7DF9EDC91E5958FF00749513 /* EBErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EBErrorView.h; sourceTree = "<group>"; };
+		7DF9EDCA1E5958FF00749513 /* EBErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EBErrorView.m; sourceTree = "<group>"; };
+		7DF9EDCD1E59A8C000749513 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		B24BB3A6979ACBEC991D89DA /* libPods-V2EX-EB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-V2EX-EB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B470D4F892D1ECC2AD63A2F2 /* Pods-V2EX-EB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-V2EX-EB.release.xcconfig"; path = "Pods/Target Support Files/Pods-V2EX-EB/Pods-V2EX-EB.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -142,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DF9EDCE1E59A8C000749513 /* SafariServices.framework in Frameworks */,
 				7D6B33891E575E4C008694A5 /* Security.framework in Frameworks */,
 				7D6B33871E574EFD008694A5 /* libxml2.2.tbd in Frameworks */,
 				45518188E5000C92F5BEE7B0 /* libPods-V2EX-EB.a in Frameworks */,
@@ -270,6 +279,10 @@
 				7D6B33581E55E4F1008694A5 /* ReplyTableViewCell.xib */,
 				7D6B335E1E55F2AF008694A5 /* TopicDetailView.h */,
 				7D6B335F1E55F2AF008694A5 /* TopicDetailView.m */,
+				7DF9EDC61E5945D500749513 /* ProfileHeaderView.h */,
+				7DF9EDC71E5945D500749513 /* ProfileHeaderView.m */,
+				7DF9EDC91E5958FF00749513 /* EBErrorView.h */,
+				7DF9EDCA1E5958FF00749513 /* EBErrorView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -343,6 +356,7 @@
 		885C798650859920638F16FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7DF9EDCD1E59A8C000749513 /* SafariServices.framework */,
 				7D6B33881E575E4C008694A5 /* Security.framework */,
 				7D6B33861E574EFD008694A5 /* libxml2.2.tbd */,
 				B24BB3A6979ACBEC991D89DA /* libPods-V2EX-EB.a */,
@@ -483,8 +497,10 @@
 				7D6B33811E5748C3008694A5 /* HTMLNode.m in Sources */,
 				7D6B335D1E55EBB2008694A5 /* YYFPSLabel.m in Sources */,
 				7D6B33901E58A353008694A5 /* EBAccountManager.m in Sources */,
+				7DF9EDC81E5945D500749513 /* ProfileHeaderView.m in Sources */,
 				7D6B32E91E4C9E82008694A5 /* EBNetworkCore.m in Sources */,
 				7D6B330A1E4D5DBE008694A5 /* TopicListTableViewCell.m in Sources */,
+				7DF9EDCB1E5958FF00749513 /* EBErrorView.m in Sources */,
 				7D6B32F21E4CA6AE008694A5 /* Member.m in Sources */,
 				7D6B33791E573FB2008694A5 /* LoginViewController.m in Sources */,
 				7D6B33031E4D5BCF008694A5 /* BaseViewController.m in Sources */,

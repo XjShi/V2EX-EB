@@ -7,8 +7,12 @@
 //
 
 #import "BaseViewController.h"
+#import "EBErrorView.h"
+#import <SafariServices/SafariServices.h>
 
 @interface BaseViewController ()
+
+@property (nonatomic) EBErrorView *errorView;
 
 @end
 
@@ -22,6 +26,32 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setNoMoreDataText:(NSString *)noMoreDataText {
+    if (_noMoreDataText == noMoreDataText) {
+        return;
+    }
+    _noMoreDataText = noMoreDataText;
+    self.errorView.label.text = noMoreDataText;
+    if (!noMoreDataText || noMoreDataText.length == 0) {
+        [self.errorView removeFromSuperview];
+    } else {
+        [self.view addSubview:self.errorView];
+    }
+}
+
+- (void)setNetworkErrorText:(NSString *)networkErrorText {
+    if (_networkErrorText == networkErrorText) {
+        return;
+    }
+    _networkErrorText = networkErrorText;
+    self.errorView.label.text = networkErrorText;
+    if (!networkErrorText || networkErrorText.length == 0) {
+        [self.errorView removeFromSuperview];
+    } else {
+        [self.view addSubview:self.errorView];
+    }
 }
 
 - (void)showLoadingWithText:(NSString *)text {
@@ -45,6 +75,7 @@
 }
 
 - (void)alertUserToOpenURLInSafari:(NSURL *)url {
+#if 0
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
                                                                              message:url.absoluteString
                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
@@ -59,6 +90,12 @@
         
     }]];
     [self presentViewController:alertController animated:YES completion:NULL];
+#endif
+    
+    SFSafariViewController *vc = [[SFSafariViewController alloc] initWithURL:url];
+    [self presentViewController:vc animated:YES completion:^{
+        
+    }];
 }
 
 - (void)alertUserToCallOrSendSMSWithPhoneNumber:(NSString *)phoneNumber {
@@ -111,6 +148,14 @@
     }
 }
 
+#pragma mark - Private
+- (EBErrorView *)errorView {
+    if (!_errorView) {
+        _errorView = [[EBErrorView alloc] initWithFrame:self.view.bounds];
+    }
+    return _errorView;
+}
+
 /*
 #pragma mark - Navigation
 
@@ -120,5 +165,11 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+@end
+
+@implementation BaseViewController (abc)
+
+
 
 @end

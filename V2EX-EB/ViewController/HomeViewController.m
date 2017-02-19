@@ -10,6 +10,7 @@
 #import "TopicListTableViewController.h"
 #import "TopicDetailViewController.h"
 #import "LoginViewController.h"
+#import "ProfileViewController.h"
 #import "TopicCore.h"
 #import "Masonry.h"
 #import "TopicListTableViewCell.h"
@@ -151,14 +152,14 @@ referenceSizeForHeaderInSection:(NSInteger)section {
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     NSArray *arr = [self nodeDataForSection:indexPath.section];
     NSDictionary *nodeInfo = arr[indexPath.item];
-    NSLog(@"go/%@", nodeInfo[@"title"]);
+    DDLogDebug(@"go/%@", nodeInfo[@"title"]);
     [self queryTopicsByNodename:nodeInfo[@"title"]];
     [self transition];
 }
 
 #pragma mark - TopicListTableViewCellDelegate
 - (void)topicListTableViewCell:(TopicListTableViewCell *)cell nodenameClicked:(Node *)node {
-    NSLog(@"%@", node.name);
+    DDLogDebug(@"%@", node.name);
     NSDictionary *condition = @{@"node_name": node.name};
     TopicListTableViewController *vc = [TopicListTableViewController new];
     vc.title = node.title;
@@ -167,11 +168,9 @@ referenceSizeForHeaderInSection:(NSInteger)section {
 }
 
 - (void)topicListTableViewCell:(TopicListTableViewCell *)cell memberNameClicked:(Member *)member {
-    NSLog(@"%@", member.username);
-    NSDictionary *condition = @{@"username": member.username};
-    TopicListTableViewController *vc = [TopicListTableViewController new];
-    vc.title = member.username;
-    vc.queryCondition = condition;
+    DDLogDebug(@"%@", member.username);
+    ProfileViewController *vc = [ProfileViewController new];
+    vc.username = member.username;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -223,17 +222,20 @@ referenceSizeForHeaderInSection:(NSInteger)section {
         [self.tableView reloadData];
     } failed:^(NSInteger errorCode, NSString *msg) {
         [self hideLoading];
-        NSLog(@"%@", msg);
+        DDLogError(@"%@", msg);
     }];
 }
 
 - (void)queryTopicsByNodename:(NSString *)nodename {
     __weak typeof(self) weakSelf = self;
+    [self showLoadingWithText:nil];
     [TopicCore queryTopicsWithNodeName:nodename success:^(NSArray<Topic *> *result) {
+        [self hideLoading];
         weakSelf.topicDataSource = [result mutableCopy];
         [self.tableView reloadData];
     } failed:^(NSInteger errorCode, NSString *msg) {
-        NSLog(@"%@", msg);
+        [self hideLoading];
+        DDLogError(@"%@", msg);
     }];
 }
 
@@ -267,7 +269,9 @@ referenceSizeForHeaderInSection:(NSInteger)section {
 }
 
 - (void)showProfile {
-    DDLogInfo(@"登录");
+    ProfileViewController *vc = [ProfileViewController new];
+    vc.isCurrentLoginMember = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)login {

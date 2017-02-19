@@ -53,7 +53,7 @@ static const CGFloat kAvatarHeight = 20.0;
         [self setupSubviews];
         [self pupulate];
     }
-    self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [self heightWithTopic:_topic]);
+    self.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, [self heightWithTopic:topic]);
     return self;
 }
 

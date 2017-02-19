@@ -52,7 +52,8 @@
                              [self saveAccount:username password:password];
                              [self.navigationController popViewControllerAnimated:YES];
                          } failed:^(NSInteger errorCode, NSString *msg) {
-                             NSLog(@"登录失败：%ld, %@", (long)errorCode, msg);
+                             [self hideLoading];
+                             DDLogDebug(@"登录失败：%ld, %@", (long)errorCode, msg);
                          }];
 }
 
@@ -60,7 +61,7 @@
     [[OnePasswordExtension sharedExtension] findLoginForURLString:@"https://www.v2ex.com" forViewController:self sender:sender completion:^(NSDictionary * _Nullable loginDictionary, NSError * _Nullable error) {
         if (0 == loginDictionary.count) {
             if (error.code != AppExtensionErrorCodeCancelledByUser) {
-                NSLog(@"onepassword extension: %@", error);
+                DDLogDebug(@"onepassword extension: %@", error);
             }
             return ;
         }

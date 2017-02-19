@@ -13,6 +13,9 @@
 
 @property (nonatomic, strong, readonly) MBProgressHUD *hud;
 
+@property (nonatomic, copy) NSString *noMoreDataText;
+@property (nonatomic, copy) NSString *networkErrorText;
+
 - (void)hideLoading;
 - (void)showLoadingWithText:(NSString *)text;
 - (void)promptWithText:(NSString *)text;

@@ -6,9 +6,9 @@
 //  Copyright © 2017 sxj. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface TopicListTableViewController : UITableViewController
+@interface TopicListTableViewController : BaseViewController
 
 @property (nonatomic, strong) NSDictionary *queryCondition; //查询条件
 
