@@ -8,13 +8,14 @@
 
 #import "ProfileViewController.h"
 #import "TopicListTableViewController.h"
-#import "MemberCore.h"
 #import "Member.h"
 #import "AppDelegate.h"
 #import "EBAccountManager.h"
-#import "TopicCore.h"
+#import "Topic.h"
 #import "ProfileHeaderView.h"
 #import <SafariServices/SafariServices.h>
+#import "MemberReplyViewController.h"
+#import "AccountViewController.h"
 
 @interface ProfileViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -27,13 +28,6 @@
 
 @implementation ProfileViewController
 
-/*
-- (void)loadView {
-    [super loadView];
-    
-}
- */
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -42,7 +36,7 @@
     [self.view addSubview:self.tableView];
     if (self.isCurrentLoginMember) {
         self.member = [AppDelegate appDelegate].currentLoginMember;
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"注销"
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"账户管理"
                                                                                  style:UIBarButtonItemStylePlain
                                                                                 target:self
                                                                                 action:@selector(logout)];
@@ -81,11 +75,9 @@
             break;
         case 1:
         {
-            NSString *str = [NSString stringWithFormat:@"https://www.v2ex.com/member/%@/replies", self.member.username];
-            SFSafariViewController *vc = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:str]];
-            [self presentViewController:vc animated:YES completion:^{
-                
-            }];
+            MemberReplyViewController *vc = [[MemberReplyViewController alloc] init];
+            vc.username = self.member.username;
+            [self.navigationController pushViewController:vc animated:YES];
         }
             break;
             
@@ -97,7 +89,7 @@
 #pragma mark - Private
 - (void)queryMemberInfo {
     [self showLoadingWithText:nil];
-    [MemberCore queryMemberInfoByName:self.username succss:^(Member *member) {
+    [Member queryMemberInfoByName:self.username succss:^(Member *member) {
         self.member = member;
         self.headerView.member = member;
         [self hideLoading];
@@ -108,19 +100,8 @@
 }
 
 - (void)logout {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
-                                                                             message:@"您确定要注销吗"
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"取消"
-                                                        style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                                                            
-                                                        }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"注销"
-                                                        style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                                                            [EBAccountManager clear];
-                                                            [self.navigationController popViewControllerAnimated:YES];
-                                                        }]];
-    [self presentViewController:alertController animated:YES completion:NULL];
+    AccountViewController *vc = [AccountViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (UITableView *)tableView {

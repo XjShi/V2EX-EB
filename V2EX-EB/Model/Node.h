@@ -7,6 +7,8 @@
 //
 
 #import <JSONModel/JSONModel.h>
+#import "EBError.h"
+#import "EBNetworkCore.h"
 
 @interface Node : JSONModel
 
@@ -23,5 +25,13 @@
 @property (nonatomic, copy) NSString *avatar_normal;
 @property (nonatomic, copy) NSString *avatar_large;
 @property (nonatomic, assign) NSUInteger topics;
+
+@end
+
+@interface Node (Request)
+
++ (NSURLSessionDataTask *)queryNodeWithName:(NSString *)name
+                                    success:(void(^)(Node *node))success
+                                     failed:(EBNetworkFailedBlock)failed;
 
 @end

@@ -11,7 +11,7 @@
 #import "TopicDetailViewController.h"
 #import "LoginViewController.h"
 #import "ProfileViewController.h"
-#import "TopicCore.h"
+#import "Topic.h"
 #import "Masonry.h"
 #import "TopicListTableViewCell.h"
 #import "NodeCollectionViewCell.h"
@@ -108,7 +108,7 @@ SYNavigationDropdownMenuDelegate, SYNavigationDropdownMenuDataSource>
     //    return;
     TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
     Topic *topic = self.topicDataSource[indexPath.row];
-    vc.topic = topic;
+    vc.topicID = topic.ID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -216,7 +216,7 @@ referenceSizeForHeaderInSection:(NSInteger)section {
     //        NSLog(@"%@", msg);
     //    }];
     [self showLoadingWithText:nil];
-    [TopicCore queryLatestTopicWithSuccess:^(NSArray<Topic *> *result) {
+    [Topic queryLatestTopicWithSuccess:^(NSArray<Topic *> *result) {
         [self hideLoading];
         weakSelf.topicDataSource = [result mutableCopy];
         [self.tableView reloadData];
@@ -229,7 +229,7 @@ referenceSizeForHeaderInSection:(NSInteger)section {
 - (void)queryTopicsByNodename:(NSString *)nodename {
     __weak typeof(self) weakSelf = self;
     [self showLoadingWithText:nil];
-    [TopicCore queryTopicsWithNodeName:nodename success:^(NSArray<Topic *> *result) {
+    [Topic queryTopicsWithNodeName:nodename success:^(NSArray<Topic *> *result) {
         [self hideLoading];
         weakSelf.topicDataSource = [result mutableCopy];
         [self.tableView reloadData];

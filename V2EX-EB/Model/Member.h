@@ -7,6 +7,8 @@
 //
 
 #import <JSONModel/JSONModel.h>
+#import "EBNetworkCore.h"
+#import "EBError.h"
 
 @interface Member : JSONModel
 
@@ -26,5 +28,15 @@
 @property (nonatomic, copy) NSString *avatar_normal;
 @property (nonatomic, copy) NSString *avatar_large;
 @property (nonatomic, assign) NSTimeInterval created;
+
+@end
+
+typedef void(^MemberNetworkSuccessBlock)(Member *user);
+
+@interface Member (Request)
+
++ (NSURLSessionDataTask *)queryMemberInfoByName:(NSString *)name
+                                         succss:(MemberNetworkSuccessBlock)success
+                                         failed:(EBNetworkFailedBlock)failed;
 
 @end

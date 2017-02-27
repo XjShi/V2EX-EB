@@ -8,8 +8,6 @@
 
 #import "TopicDetailViewController.h"
 #import "ProfileViewController.h"
-#import "TopicCore.h"
-#import "MemberCore.h"
 #import "ReplyTableViewCell.h"
 #import "TopicDetailView.h"
 #import "Topic.h"
@@ -21,6 +19,8 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *replies;
+@property (nonatomic, strong) Topic *topic;
+
 @end
 
 @implementation TopicDetailViewController
@@ -35,20 +35,28 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    TopicDetailView *header = [[TopicDetailView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0) topic:self.topic];
-    header.delegate = self;
-    header.tttDelegate = self;
-    self.tableView.tableHeaderView = header;
-    
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
     [self showLoadingWithText:nil];
-    [TopicCore queryReplyWithTopicID:self.topic.ID page:0 page_size:0 success:^(NSArray<Reply *> *replies) {
-        [self hideLoading];
+    [Topic queryTopciWithID:self.topicID success:^(NSArray<Topic *> *result) {
+        self.topic = result.firstObject;
+        self.tableView.tableHeaderView = [self topicDetailView];
+        dispatch_group_leave(group);
+    } failed:^(NSInteger errorCode, NSString *msg) {
+        dispatch_group_leave(group);
+    }];
+    dispatch_group_enter(group);
+    [Reply queryReplyWithTopicID:self.topicID page:0 page_size:0 success:^(NSArray<Reply *> *replies) {
         self.replies = replies;
         [self.tableView reloadData];
+        dispatch_group_leave(group);
     } failed:^(NSInteger errorCode, NSString *msg) {
-        [self hideLoading];
         DDLogDebug(@"%@", msg);
+        dispatch_group_leave(group);
     }];
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [self hideLoading];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -115,6 +123,14 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
         vc.username = url.absoluteString;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+#pragma mark - Private
+- (TopicDetailView *)topicDetailView {
+    TopicDetailView *header = [[TopicDetailView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 0) topic:self.topic];
+    header.delegate = self;
+    header.tttDelegate = self;
+    return header;
 }
 
 /*

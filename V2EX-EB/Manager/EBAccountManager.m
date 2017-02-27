@@ -60,11 +60,20 @@ NSString *const kAccountManagerCurrentLoginMemberChangedNotification = @"kAccoun
         }
     }
     return success;
-    
+}
+
+- (NSString *)passwordForAccount:(NSString *)account {
+    NSError *error = nil;
+    NSString *password = [SAMKeychain passwordForService:_serviceName account:account error:&error];
+    if (!password) {
+        DDLogError(@"查找密码出错：%@", error.localizedDescription);
+    }
+    return password;
 }
 
 - (NSArray *)getAllAccounts {
-    return [SAMKeychain accountsForService:_serviceName];
+    NSArray *accounts = [SAMKeychain accountsForService:_serviceName];
+    return accounts;
 }
 
 @end

@@ -18,7 +18,6 @@
                                                                                   options:NSRegularExpressionCaseInsensitive
                                                                                     error:&error];
     [regularExpression enumerateMatchesInString:str options:NSMatchingReportCompletion range:NSMakeRange(0, str.length) usingBlock:^(NSTextCheckingResult * _Nullable result, NSMatchingFlags flags, BOOL * _Nonnull stop) {
-        DDLogDebug(@"%@, %llu", NSStringFromRange(result.range), result.resultType);
         if (result) {
             NSRange range = NSMakeRange(result.range.location+1, result.range.length-1);
             NSString *username = [str substringWithRange:range];

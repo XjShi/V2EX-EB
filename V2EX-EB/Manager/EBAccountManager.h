@@ -14,6 +14,7 @@ extern NSString *const kAccountManagerCurrentLoginMemberChangedNotification;
 
 + (instancetype)sharedManager;
 - (BOOL)saveAccount:(NSString *)account password:(NSString *)password;
+- (NSString *)passwordForAccount:(NSString *)account;
 - (BOOL)deleteAccount:(NSString *)account;
 - (NSArray *)getAllAccounts;
 

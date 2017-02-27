@@ -9,7 +9,6 @@
 #import "TopicListTableViewController.h"
 #import "TopicDetailViewController.h"
 #import "TopicListTableViewCell.h"
-#import "TopicCore.h"
 #import "Topic.h"
 #import "Node.h"
 #import "Member.h"
@@ -60,7 +59,7 @@ static NSString *const kTopicCellIdentifier = @"kTopicCellIdentifier";
     // Create the next view controller.
     TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
     Topic *topic = self.dataSource[indexPath.row];
-    vc.topic = topic;
+    vc.topicID = topic.ID;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -81,7 +80,7 @@ static NSString *const kTopicCellIdentifier = @"kTopicCellIdentifier";
     if (!_queryCondition) {
         return;
     }
-    NSURLSessionDataTask *task = [TopicCore queryTopicsWithParameters:_queryCondition success:^(NSArray<Topic *> *result) {
+    NSURLSessionDataTask *task = [Topic queryTopicsWithParameters:_queryCondition success:^(NSArray<Topic *> *result) {
         self.dataSource = result;
         if (result.count == 0) {
             self.noMoreDataText = @"还没有发布过主题";

@@ -148,7 +148,6 @@ static const CGFloat kAvatarHeight = 20.0;
 }
 
 - (CGSize)contentSizeWithTopic:(Topic *)topic {
-//    return [topic.content sizeWithFont:kContentFont constrainSize:CGSizeMake(kScreenWidth - 2*kMargin, CGFLOAT_MAX)];
     return [TTTAttributedLabel sizeThatFitsAttributedString:[self generateAttributedString]
                                             withConstraints:CGSizeMake(kScreenWidth - 2*kMargin, CGFLOAT_MAX)
                                      limitedToNumberOfLines:0];

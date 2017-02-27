@@ -20,3 +20,13 @@
 @property (nonatomic, strong) Member *member;
 
 @end
+
+@interface Reply (Request)
+
++ (NSURLSessionDataTask *)queryReplyWithTopicID:(NSInteger)topicID
+                                           page:(NSInteger)page
+                                      page_size:(NSInteger)page_size
+                                        success:(void(^)(NSArray<Reply *> *replies))success
+                                         failed:(EBNetworkFailedBlock)failed;
+
+@end

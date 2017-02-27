@@ -11,6 +11,6 @@
 @class Topic;
 @interface TopicDetailViewController : BaseViewController
 
-@property (nonatomic, strong) Topic *topic;
+@property (nonatomic, assign) NSUInteger topicID;
 
 @end

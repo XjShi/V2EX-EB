@@ -8,7 +8,6 @@
 
 #import "LoginViewController.h"
 #import "LoginCore.h"
-#import "MemberCore.h"
 #import "OnePasswordExtension.h"
 #import "EBAccountManager.h"
 #import "Member.h"
@@ -73,7 +72,7 @@
 }
 
 - (void)queryMemberInfo:(NSString *)username {
-    [MemberCore queryMemberInfoByName:username succss:^(Member *user) {
+    [Member queryMemberInfoByName:username succss:^(Member *user) {
         [EBAccountManager saveMember:user];
     } failed:^(NSInteger errorCode, NSString *msg) {
         
