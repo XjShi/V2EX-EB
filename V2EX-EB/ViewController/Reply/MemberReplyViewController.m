@@ -28,6 +28,10 @@ static NSString *const kCellIdentifier = @"MemberReplyTableViewCell";
 }
 
 #pragma mark - UITableViewDelegate / UITableViewDataSource
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataSource.count;
 }
@@ -35,6 +39,8 @@ static NSString *const kCellIdentifier = @"MemberReplyTableViewCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     MemberReplyTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     cell.reply = self.dataSource[indexPath.row];
+    cell.separatorInset = UIEdgeInsetsZero;
+    cell.layoutMargins = UIEdgeInsetsZero;
     return cell;
 }
 
@@ -56,6 +62,7 @@ static NSString *const kCellIdentifier = @"MemberReplyTableViewCell";
          forCellReuseIdentifier:kCellIdentifier];
         _tableView.estimatedRowHeight = 60.F;
         _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.tableFooterView = [UIView new];
     }
     return _tableView;
 }
@@ -64,6 +71,10 @@ static NSString *const kCellIdentifier = @"MemberReplyTableViewCell";
     [self showLoadingWithText:nil];
     [MemberReply queryRepliesWithUsername:_username success:^(NSArray<MemberReply *> *replies) {
         [self hideLoading];
+        if (replies.count == 0) {
+            self.noMoreDataText = @"高冷，你还没有回复过别人~";
+            return ;
+        }
         self.dataSource = [replies mutableCopy];
         [_tableView reloadData];
     } failed:^(NSInteger errorCode, NSString *msg) {

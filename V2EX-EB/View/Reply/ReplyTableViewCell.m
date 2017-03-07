@@ -29,6 +29,8 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.avatarImageView.layer.cornerRadius = 2.0;
+    self.avatarImageView.layer.masksToBounds = YES;
     self.contentLabel.enabledTextCheckingTypes = NSTextCheckingTypeLink | NSTextCheckingTypePhoneNumber;
     self.contentLabel.linkAttributes = @{NSUnderlineStyleAttributeName: @(NSUnderlineStyleNone),
                                          NSForegroundColorAttributeName: kLinkColor};

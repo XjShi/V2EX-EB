@@ -48,6 +48,7 @@ static NSString *const kTopicCellIdentifier = @"kTopicCellIdentifier";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kTopicCellIdentifier forIndexPath:indexPath];
     [((TopicListTableViewCell *)cell) setTopic:self.dataSource[indexPath.row]];
+    cell.separatorInset = UIEdgeInsetsZero;
     return cell;
 }
 

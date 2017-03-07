@@ -7,13 +7,14 @@
 //
 
 #import "EBNetworkCore.h"
-#import "AFNetworking.h"
 
 static NSString *const kBaseUrlString = @"https://www.v2ex.com/api";
+NSString *const kV2exURLString = @"https://www.v2ex.com/";
+NSString *const kV2UserAgent = @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/602.4.8 (KHTML, like Gecko) Version/10.0.3 Safari/602.4.8";
 
 @interface EBNetworkCore ()
 
-@property (nonatomic, strong) AFURLSessionManager *sessionManager;
+@property (nonatomic, strong) AFHTTPSessionManager *sessionManager;
 @property (nonatomic, copy) NSString *baseURLString;
 
 @end
@@ -32,8 +33,11 @@ static NSString *const kBaseUrlString = @"https://www.v2ex.com/api";
 - (instancetype)init {
     if (self = [super init]) {
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        self.sessionManager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        self.sessionManager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
         self.sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+        UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectZero];
+        NSString *userAgentMobile = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        [self.sessionManager.requestSerializer setValue:userAgentMobile forHTTPHeaderField:@"User-Agent"];
     }
     return self;
 }

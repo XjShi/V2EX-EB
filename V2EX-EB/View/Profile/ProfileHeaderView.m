@@ -11,6 +11,9 @@
 #import "Masonry.h"
 #import "Member.h"
 #import "V2URLHelper.h"
+#import "UIImage+Extension.h"
+#import "SDWebImageManager.h"
+#import "UIImageView+Extension.h"
 
 static const CGFloat kAvatarHeight = 70.0;
 static const CGFloat kNameLabelFontSize = 14.0;
@@ -42,7 +45,10 @@ static const CGFloat kNameLabelFontSize = 14.0;
 - (void)setMember:(Member *)member {
     _member = member;
     NSURL *url = [V2URLHelper getHTTPSLink:member.avatar_large];
-    [self.avatarImageView sd_setImageWithURL:url];
+    [self.avatarImageView eb_setImageWithUrl:url.absoluteString
+                                        size:CGSizeMake(kAvatarHeight, kAvatarHeight)
+                                      radius:kAvatarHeight / 2.0];
+    
     self.nameLabel.text = member.username;
 }
 
@@ -58,15 +64,12 @@ static const CGFloat kNameLabelFontSize = 14.0;
         make.top.equalTo(self.avatarImageView.mas_bottom).with.offset(10);
         make.centerX.equalTo(self.mas_centerX);
     }];
-//    [self.nameLabel sizeToFit];
 }
 
 #pragma mark - Private
 - (void)setupSubviews {
     self.avatarImageView = ({
         UIImageView *v = [[UIImageView alloc] init];
-        v.layer.cornerRadius = kAvatarHeight / 2;
-        v.layer.masksToBounds = YES;
         v;
     });
     [self addSubview:self.avatarImageView];

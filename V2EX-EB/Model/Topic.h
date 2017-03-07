@@ -9,6 +9,7 @@
 #import <JSONModel/JSONModel.h>
 #import "EBNetworkCore.h"
 #import "Reply.h"
+#import "V2HardcodedData.h"
 
 @class Member;
 @class Node;
@@ -30,6 +31,8 @@
 typedef void(^TopicNetworkSuccessBlock)(NSArray<Topic *> *result);
 
 @interface Topic (Request)
+
++ (NSURLSessionDataTask *)queryTopicUnderHotNodeType:(V2HotNodeType)nodeType;
 
 /**
  最热主题：相当于首页右侧10大每天的内容

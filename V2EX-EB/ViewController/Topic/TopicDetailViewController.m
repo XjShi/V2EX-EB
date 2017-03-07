@@ -90,6 +90,7 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
     cell.tttDelegate = self;
     [cell setReply:self.replies[indexPath.row]];
     [cell setFloor:indexPath.row];
+    cell.separatorInset = UIEdgeInsetsZero;
     return cell;
 }
 
@@ -99,11 +100,6 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
     ProfileViewController *vc = [ProfileViewController new];
     vc.username = username;
     [self.navigationController pushViewController:vc animated:YES];
-//    [TopicCore queryTopicsWithUsername:username success:^(NSArray<Topic *> *result) {
-//        
-//    } failed:^(NSInteger errorCode, NSString *msg) {
-//        
-//    }];
 }
 
 #pragma mark - TTTAttributedLabelDelegate

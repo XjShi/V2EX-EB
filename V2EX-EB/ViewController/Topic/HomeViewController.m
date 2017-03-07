@@ -93,19 +93,11 @@ SYNavigationDropdownMenuDelegate, SYNavigationDropdownMenuDataSource>
     cell.delegate = self;
     Topic *topic = self.topicDataSource[indexPath.row];
     [cell setTopic:topic];
+    cell.separatorInset = UIEdgeInsetsZero;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    [TopicCore queryTopciWithID:323650 success:^(NSArray<Topic *> *result) {
-    //        Topic *topic = result.firstObject;
-    //        TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
-    //        vc.topic = topic;
-    //        [self.navigationController pushViewController:vc animated:YES];
-    //    } failed:^(NSInteger errorCode, NSString *msg) {
-    //
-    //    }];
-    //    return;
     TopicDetailViewController *vc = [[TopicDetailViewController alloc] init];
     Topic *topic = self.topicDataSource[indexPath.row];
     vc.topicID = topic.ID;
@@ -284,7 +276,8 @@ referenceSizeForHeaderInSection:(NSInteger)section {
     UIView *from = flag ? self.nodeCollectionView : self.tableView;
     UIView *to = flag ? self.tableView : self.nodeCollectionView;
     self.navigationItem.rightBarButtonItem.title = flag ? @"节点" : @"主题";
-    UIViewAnimationOptions option = flag ? UIViewAnimationOptionTransitionCurlDown : UIViewAnimationOptionTransitionCurlUp;
+//    UIViewAnimationOptions option = flag ? UIViewAnimationOptionTransitionCurlDown : UIViewAnimationOptionTransitionCurlUp;
+    UIViewAnimationOptions option = UIViewAnimationOptionCurveLinear;
     [UIView transitionFromView:from
                         toView:to
                       duration:0.5

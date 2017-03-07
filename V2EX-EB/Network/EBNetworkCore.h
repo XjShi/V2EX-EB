@@ -7,13 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFNetworking.h"
 
 typedef void(^EBNetworkSuccessBlock)(NSString *msg, id result);
 typedef void(^EBNetworkFailedBlock)(NSInteger errorCode, NSString *msg);
 
+extern NSString *const kV2exURLString;
+extern NSString *const kV2UserAgent;
+
 @interface EBNetworkCore : NSObject
 
 + (instancetype)sharedInstance;
+
+@property (nonatomic, strong, readonly) AFHTTPSessionManager *sessionManager;
 
 - (NSURLSessionDataTask *)dataTaskWithMethod:(NSString *)method
                                    urlString:(NSString *)URLString

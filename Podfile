@@ -18,4 +18,5 @@ target 'V2EX-EB' do
   pod 'SAMKeychain'
   pod '1PasswordExtension'
   pod 'CocoaLumberjack'
+  pod 'GDataXML-HTML', '~> 1.3.0'
 end

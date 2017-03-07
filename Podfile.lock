@@ -26,6 +26,7 @@ PODS:
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
+  - GDataXML-HTML (1.3.0)
   - JSONModel (1.7.0)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - CocoaLumberjack
   - FMDB
+  - GDataXML-HTML (~> 1.3.0)
   - JSONModel
   - Masonry
   - MBProgressHUD (~> 1.0.0)
@@ -56,6 +58,7 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   CocoaLumberjack: c823149bccc5519a9447aeb433be7b1212a7d6a5
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
+  GDataXML-HTML: 7adc03668cab35c288f1dbb8929a179f0fece898
   JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
@@ -65,6 +68,6 @@ SPEC CHECKSUMS:
   SYNavigationDropdownMenu: 6e054bd6f954afae0b6b28c2ab1f9eadad390d37
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: f0654fb88310cf48fd2062eece5bf6a0c6cda105
+PODFILE CHECKSUM: 42d9a48c93b71aed046067a743eee34b55da90a9
 
 COCOAPODS: 1.1.1

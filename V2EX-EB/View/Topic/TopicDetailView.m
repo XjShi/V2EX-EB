@@ -18,6 +18,7 @@
 
 #define kTitlteFont [UIFont systemFontOfSize:16]
 #define kSubTitleFont [UIFont systemFontOfSize:12]
+#define kNameLabelFont [UIFont systemFontOfSize:12 weight:UIFontWeightMedium]
 #define kContentFont [UIFont systemFontOfSize:14]
 
 static const CGFloat kMargin = 8.0;
@@ -95,14 +96,16 @@ static const CGFloat kAvatarHeight = 20.0;
     
     self.avatarImageView = ({
         UIImageView *v = [[UIImageView alloc] init];
+        v.layer.cornerRadius = 3.0;
+        v.layer.masksToBounds = YES;
         v;
     });
     [self addSubview:self.avatarImageView];
     
     self.memberNameButton = ({
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.titleLabel.font = kSubTitleFont;
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        button.titleLabel.font = kNameLabelFont;
+        [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(usernameClicked:) forControlEvents:UIControlEventTouchUpInside];
         button;
     });
@@ -144,7 +147,7 @@ static const CGFloat kAvatarHeight = 20.0;
 }
 
 - (CGSize)subTitleSizeWithTopic:(Topic *)topic {
-    return [topic.member.username sizeWithFont:kSubTitleFont constrainSize:CGSizeMake(kScreenWidth - 2*kMargin, CGFLOAT_MAX)];
+    return [topic.member.username sizeWithFont:kNameLabelFont constrainSize:CGSizeMake(kScreenWidth - 2*kMargin, CGFLOAT_MAX)];
 }
 
 - (CGSize)contentSizeWithTopic:(Topic *)topic {

@@ -8,6 +8,7 @@
 
 #import "Topic.h"
 #import "EBError.h"
+#import "HTMLParser.h"
 
 @implementation Topic
 
@@ -18,6 +19,40 @@
 @end
 
 @implementation Topic (Request)
+
++ (NSURLSessionDataTask *)queryTopicUnderHotNodeType:(V2HotNodeType)nodeType {
+    const NSString *nodeText = [V2HardcodedData getHotNodeText:nodeType];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:nodeText forKey:@"tab"];
+    EBNetworkCore *core = [EBNetworkCore sharedInstance];
+    NSURLSessionDataTask *task = [core dataTaskWithMethod:@"GET" urlString:kV2exURLString parameters:params successHandler:^(NSString *msg, id result) {
+        /* 不爬取网页来解析了，开放了什么接口就用什么，这个不管了
+        NSError *error = nil;
+        HTMLParser *parser = [[HTMLParser alloc] initWithData:result error:&error];
+        if (error) {
+            DDLogError(@"解析主题列表出错: %@", error.localizedDescription);
+            return ;
+        }
+        HTMLNode *bodyNode = [parser body];
+        NSArray<HTMLNode *> *cellItems = [bodyNode findChildrenWithAttribute:@"class" matchingName:@"cell item" allowPartial:YES];
+        NSMutableArray<Topic *> *resultArray = [self topicArrayWithCapacity:cellItems.count];
+        for (NSInteger i = 0; i< cellItems.count; i++) {
+            HTMLNode *node = cellItems[i];
+            Topic *topic = resultArray[i];
+            HTMLNode *tmpNode = [node findChildOfClass:@"avatar"];
+            topic.member.avatar_normal = [tmpNode getAttributeNamed:@"src"];
+            tmpNode = [node findChildOfClass:@"item_title"];
+            tmpNode = [tmpNode findChildTag:@"a"];
+            DDLogInfo(@"title: %@", tmpNode.contents);
+            DDLogInfo(@"topicId: %@", [tmpNode getAttributeNamed:@"href"]);
+        }
+        */
+    } failedHandler:^(NSInteger errorCode, NSString *msg) {
+        
+    }];
+    [task resume];
+    return task;
+}
 
 + (NSURLSessionDataTask *)queryHotTopicWithSuccess:(void (^)(NSArray<Topic *> *))success
                                             failed:(EBNetworkFailedBlock)failed {
@@ -125,6 +160,15 @@
                                                failed(errorCode, msg);
                                            }];
     return task;
+}
+
++ (NSMutableArray *)topicArrayWithCapacity:(NSInteger)capacity {
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:capacity];
+    for (NSInteger i = 0; i < capacity; i++) {
+        Topic *topic = [Topic new];
+        [result addObject:topic];
+    }
+    return result;
 }
 
 @end
