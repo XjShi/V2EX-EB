@@ -32,7 +32,7 @@ NSString *const kV2UserAgent = @"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3)
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration ephemeralSessionConfiguration];
         self.sessionManager = [[AFHTTPSessionManager alloc] initWithSessionConfiguration:configuration];
         self.sessionManager.responseSerializer = [AFHTTPResponseSerializer serializer];
         UIWebView *webView = [[UIWebView alloc]initWithFrame:CGRectZero];
