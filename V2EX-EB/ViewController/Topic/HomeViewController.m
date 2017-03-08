@@ -210,10 +210,12 @@ referenceSizeForHeaderInSection:(NSInteger)section {
     [self showLoadingWithText:nil];
     [Topic queryLatestTopicWithSuccess:^(NSArray<Topic *> *result) {
         [self hideLoading];
+        [_tableView.mj_header endRefreshing];
         weakSelf.topicDataSource = [result mutableCopy];
         [self.tableView reloadData];
     } failed:^(NSInteger errorCode, NSString *msg) {
         [self hideLoading];
+        [_tableView.mj_header endRefreshing];
         DDLogError(@"%@", msg);
     }];
 }
@@ -311,6 +313,7 @@ referenceSizeForHeaderInSection:(NSInteger)section {
         [_tableView registerNib:nib forCellReuseIdentifier:kTopicCellIdentifier];
         _tableView.estimatedRowHeight = 70.0;
         _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.mj_header = [self mjHeaderWithSelector:@selector(queryLatestTopics)];
     }
     return _tableView;
 }

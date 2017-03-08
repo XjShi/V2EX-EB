@@ -59,6 +59,39 @@
     }
 }
 
+#pragma mark - Private
+- (EBErrorView *)errorView {
+    if (!_errorView) {
+        _errorView = [[EBErrorView alloc] initWithFrame:self.view.bounds];
+    }
+    return _errorView;
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end
+
+@implementation BaseViewController (Refresh)
+
+- (MJRefreshNormalHeader *)mjHeaderWithSelector:(SEL)seletor {
+    MJRefreshNormalHeader *header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:seletor];
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.stateLabel.hidden = YES;
+    return header;
+}
+
+@end
+
+@implementation BaseViewController (Loading)
+
 - (void)showLoadingWithText:(NSString *)text {
     UIView *view = self.navigationController ? self.navigationController.view : self.view;
     _hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
@@ -79,24 +112,11 @@
     [hud hideAnimated:YES afterDelay:1.f];
 }
 
+@end
+
+@implementation BaseViewController (Alert)
+
 - (void)alertUserToOpenURLInSafari:(NSURL *)url {
-#if 0
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
-                                                                             message:url.absoluteString
-                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"在Safari中打开"
-                                                        style:UIAlertActionStyleDefault
-                                                      handler:^(UIAlertAction * _Nonnull action) {
-                                                          [self appOpenURL:url];
-    }]];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"Cancel"
-                                                        style:UIAlertActionStyleCancel
-                                                      handler:^(UIAlertAction * _Nonnull action) {
-        
-    }]];
-    [self presentViewController:alertController animated:YES completion:NULL];
-#endif
-    
     SFSafariViewController *vc = [[SFSafariViewController alloc] initWithURL:url];
     [self presentViewController:vc animated:YES completion:^{
         
@@ -152,29 +172,5 @@
    completionHandler:NULL];
     }
 }
-
-#pragma mark - Private
-- (EBErrorView *)errorView {
-    if (!_errorView) {
-        _errorView = [[EBErrorView alloc] initWithFrame:self.view.bounds];
-    }
-    return _errorView;
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-@end
-
-@implementation BaseViewController (abc)
-
-
 
 @end

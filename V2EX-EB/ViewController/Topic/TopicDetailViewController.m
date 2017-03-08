@@ -34,29 +34,7 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_enter(group);
-    [self showLoadingWithText:nil];
-    [Topic queryTopciWithID:self.topicID success:^(NSArray<Topic *> *result) {
-        self.topic = result.firstObject;
-        self.tableView.tableHeaderView = [self topicDetailView];
-        dispatch_group_leave(group);
-    } failed:^(NSInteger errorCode, NSString *msg) {
-        dispatch_group_leave(group);
-    }];
-    dispatch_group_enter(group);
-    [Reply queryReplyWithTopicID:self.topicID page:0 page_size:0 success:^(NSArray<Reply *> *replies) {
-        self.replies = replies;
-        [self.tableView reloadData];
-        dispatch_group_leave(group);
-    } failed:^(NSInteger errorCode, NSString *msg) {
-        DDLogDebug(@"%@", msg);
-        dispatch_group_leave(group);
-    }];
-    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-        [self hideLoading];
-    });
+    [_tableView.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -76,6 +54,7 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
         
         UINib *nib = [UINib nibWithNibName:@"ReplyTableViewCell" bundle:[NSBundle mainBundle]];
         [_tableView registerNib:nib forCellReuseIdentifier:kCellIdeintifier];
+        _tableView.mj_header = [self mjHeaderWithSelector:@selector(queryTopicDetail)];
     }
     return _tableView;
 }
@@ -127,6 +106,32 @@ static NSString *const kCellIdeintifier = @"ReplyTableViewCell";
     header.delegate = self;
     header.tttDelegate = self;
     return header;
+}
+
+- (void)queryTopicDetail {
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    [self showLoadingWithText:nil];
+    [Topic queryTopciWithID:self.topicID success:^(NSArray<Topic *> *result) {
+        self.topic = result.firstObject;
+        self.tableView.tableHeaderView = [self topicDetailView];
+        dispatch_group_leave(group);
+    } failed:^(NSInteger errorCode, NSString *msg) {
+        dispatch_group_leave(group);
+    }];
+    dispatch_group_enter(group);
+    [Reply queryReplyWithTopicID:self.topicID page:0 page_size:0 success:^(NSArray<Reply *> *replies) {
+        self.replies = replies;
+        [self.tableView reloadData];
+        dispatch_group_leave(group);
+    } failed:^(NSInteger errorCode, NSString *msg) {
+        DDLogDebug(@"%@", msg);
+        dispatch_group_leave(group);
+    }];
+    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
+        [self hideLoading];
+        [_tableView.mj_header endRefreshing];
+    });
 }
 
 /*
